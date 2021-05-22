@@ -20,4 +20,7 @@ public class Permission {
 
     @ManyToMany(mappedBy = "permissions")
     private Set<User> users = new HashSet<>();
+
+    @ManyToMany(mappedBy = "permissions")
+    private Set<Role> roles = new HashSet<>();
 }
