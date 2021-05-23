@@ -41,8 +41,8 @@ public class SimpleShopApplication implements ApplicationRunner {
 //        this.userRepositry.save(user);
 
         Permission permission1 = new Permission();
-        permission1.setTitle("test1");
+        permission1.setTitle("test132");
 
-//        this.permissionRepository.save(permission1);
+        this.permissionRepository.save(permission1);
     }
 }
