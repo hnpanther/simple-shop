@@ -45,4 +45,10 @@ public class UserPartTest {
         System.out.println(firstProperty);
         assertEquals(p1.getTitle(), findP1.getTitle());
     }
+
+
+
+    private void initData() {
+
+    }
 }

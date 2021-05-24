@@ -43,6 +43,6 @@ public class SimpleShopApplication implements ApplicationRunner {
         Permission permission1 = new Permission();
         permission1.setTitle("test132");
 
-        this.permissionRepository.save(permission1);
+//        this.permissionRepository.save(permission1);
     }
 }
