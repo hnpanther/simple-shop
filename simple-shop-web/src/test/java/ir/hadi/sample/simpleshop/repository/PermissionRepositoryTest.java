@@ -12,10 +12,11 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import javax.persistence.PersistenceException;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.fail;
+import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
@@ -34,7 +35,7 @@ public class PermissionRepositoryTest {
     }
 
     @Test
-    public void createPermission() {
+    public void createPermissionTest() {
         Permission p1 = new Permission();
         p1.setTitle("READ_USER");
         this.permissionRepository.save(p1);
@@ -49,7 +50,7 @@ public class PermissionRepositoryTest {
     }
 
     @Test
-    public void createNotUniquePermission() {
+    public void createNotUniquePermissionTest() {
         initPermission();
         Permission p1 = new Permission();
         p1.setTitle("READ_USER");
@@ -64,7 +65,7 @@ public class PermissionRepositoryTest {
     }
 
     @Test
-    public void updateExistingPermission() {
+    public void updateExistingPermissionTest() {
         initPermission();
         Permission p1 = readPermission("READ_USER");
         int id = p1.getId();
@@ -80,7 +81,7 @@ public class PermissionRepositoryTest {
     }
 
     @Test
-    public void readNotExistingPermission() {
+    public void readNotExistingPermissionTest() {
         Optional<Permission> op1 = this.permissionRepository.findPermissionByTitle("WRITE_PERMISSION");
         if(op1.isPresent()) {
             fail();
@@ -88,7 +89,7 @@ public class PermissionRepositoryTest {
     }
 
     @Test
-    public void deletePermission() {
+    public void deletePermissionTest() {
         initPermission();
         Permission p1 = readPermission("READ_USER");
         this.permissionRepository.delete(p1);
@@ -101,6 +102,43 @@ public class PermissionRepositoryTest {
             fail();
         }
 
+    }
+
+    @Test
+    public void equlasTest() {
+        Permission p1 = new Permission();
+        p1.setTitle("READ_USER");
+        p1.setId(1);
+
+        Permission p2 = new Permission();
+        p2.setTitle("WRITE_USER");
+        p2.setId(2);
+
+        Permission p3 = new Permission();
+        p3.setTitle("READ_USER");
+
+        Permission p4 = new Permission();
+        p4.setId(1);
+
+        Permission p5 = new Permission();
+        p5.setId(1);
+        p5.setTitle("TEST");
+
+        Permission p6 = new Permission();
+        p6.setId(1);
+        p6.setTitle("READ_USER");
+
+        assertEquals(p1, p3);
+        assertNotEquals(p1, p4);
+        assertNotEquals(p1, p5);
+        assertEquals(p1, p6);
+
+        Set<Permission> permissions = new HashSet<>();
+        permissions.add(p1);
+        permissions.add(p2);
+        permissions.add(p3);
+        System.out.println(p1.hashCode());
+        System.out.println(p3.hashCode());
     }
 
 
