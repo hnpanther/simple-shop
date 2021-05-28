@@ -45,15 +45,15 @@ public class Permission {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Permission that = (Permission) o;
-        if(id == null || that.id == null) {
-            return title.equals(that.title);
+        Permission permission = (Permission) o;
+        if(id != null) {
+            return id.equals(permission.id);
         }
-        return id.equals(that.id) && title.equals(that.title);
+        return title.equals(permission.title);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title);
+        return Objects.hash(id);
     }
 }

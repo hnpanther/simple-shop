@@ -104,6 +104,7 @@ public class PermissionRepositoryTest {
 
     }
 
+    // continue testing equlas had hash
     @Test
     public void equlasTest() {
         Permission p1 = new Permission();
@@ -128,17 +129,22 @@ public class PermissionRepositoryTest {
         p6.setId(1);
         p6.setTitle("READ_USER");
 
-        assertEquals(p1, p3);
-        assertNotEquals(p1, p4);
-        assertNotEquals(p1, p5);
+        assertEquals(p3, p1);
+        assertNotEquals(p1, p3);
+
+        assertEquals(p1, p4);
+        assertEquals(p1, p5);
         assertEquals(p1, p6);
 
         Set<Permission> permissions = new HashSet<>();
-        permissions.add(p1);
+        boolean b1 = permissions.add(p1);
         permissions.add(p2);
         permissions.add(p3);
-        System.out.println(p1.hashCode());
-        System.out.println(p3.hashCode());
+        permissions.add(p5);
+        boolean b6 = permissions.add(p6);
+        assertTrue(b1);
+        assertFalse(b6);
+        assertEquals(3, permissions.size());
     }
 
 
