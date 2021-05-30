@@ -19,10 +19,10 @@ public class Permission {
     @Column(name = "title", unique = true, nullable = false)
     private String title;
 
-    @ManyToMany(mappedBy = "permissions")
+    @ManyToMany(mappedBy = "permissions", fetch = FetchType.LAZY)
     private Set<User> users = new HashSet<>();
 
-    @ManyToMany(mappedBy = "permissions")
+    @ManyToMany(mappedBy = "permissions", fetch = FetchType.LAZY)
     private Set<Role> roles = new HashSet<>();
 
     public void addRole(Role role) {
@@ -55,5 +55,13 @@ public class Permission {
     @Override
     public int hashCode() {
         return Objects.hash(id);
+    }
+
+    @Override
+    public String toString() {
+        return "Permission{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                '}';
     }
 }

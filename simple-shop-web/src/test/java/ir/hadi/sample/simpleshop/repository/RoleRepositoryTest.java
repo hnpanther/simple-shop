@@ -100,7 +100,7 @@ public class RoleRepositoryTest {
     }
 
     @Test
-    public void createRoleByPermission() {
+    public void createRoleByPermissionTest() {
 
         Optional<Permission> fp1 = this.permissionRepository.findPermissionByTitle("READ_USER");
         Optional<Permission> fp2 = this.permissionRepository.findPermissionByTitle("WRITE_USER");
@@ -115,6 +115,96 @@ public class RoleRepositoryTest {
 
         Role role = new Role();
         role.setRoleName("MANAGER");
+
+        role.addPermission(p1);
+        role.addPermission(p2);
+
+        p1.addRole(role);
+        p2.addRole(role);
+
+        this.roleRepository.save(role);
+
+        this.entityManager.flush();
+        this.entityManager.clear();
+
+        Optional<Role> oRole = this.roleRepository.findRoleByRoleName("MANAGER");
+
+        if(oRole.isEmpty()) {
+            fail();
+        }
+
+        Role findRole = oRole.get();
+
+        assertEquals(2, findRole.getPermissions().size());
+
+        System.out.println("=======================");
+        for(Permission pHelp: findRole.getPermissions()) {
+            System.out.println(pHelp);
+        }
+        System.out.println("=======================");
+
+
+    }
+
+    @Test
+    public void deletePermissionFromRoleTest() {
+        initRoeByPermission();
+
+        Role role = findRole("MANAGER", 0);
+
+        assertEquals(2, role.getPermissions().size());
+
+        Optional<Permission> oP1 = this.permissionRepository.findPermissionByTitle("READ_USER");
+        if(oP1.isEmpty()) {
+            fail();
+        }
+        Permission p1 = oP1.get();
+
+        assertTrue(role.getPermissions().contains(p1));
+
+        role.removePermission(p1);
+
+        this.entityManager.flush();
+        this.entityManager.clear();
+
+        Role role2 = findRole("MANAGER", 0);
+        assertEquals(1, role2.getPermissions().size());
+
+        System.out.println("==================");
+        for(Permission pHelp: role2.getPermissions()) {
+            System.out.println(pHelp);
+        }
+        System.out.println("==================");
+
+    }
+
+    @Test
+    public void addPermissionToExistingRole() {
+        initRole();
+        Role role = findRole("ADMIN", 0);
+        assertEquals(0, role.getPermissions().size());
+        Optional<Permission> oPermission = this.permissionRepository.findPermissionByTitle("WRITE_USER");
+        if(oPermission.isEmpty()) {
+            fail();
+        }
+        Permission p = oPermission.get();
+
+        role.addPermission(p);
+        p.addRole(role);
+
+        this.roleRepository.save(role);
+
+        this.entityManager.flush();
+        this.entityManager.clear();
+
+        Role role2 = findRole("ADMIN", 0);
+        assertEquals(1, role2.getPermissions().size());
+
+        System.out.println("===============");
+        for(Permission pHelp: role2.getPermissions()) {
+            System.out.println(pHelp);
+        }
+        System.out.println("===============");
 
     }
 
@@ -136,6 +226,33 @@ public class RoleRepositoryTest {
         r2.setRoleName("ADMIN");
 
         this.roleRepository.saveAll(Arrays.asList(r1, r2));
+        this.entityManager.flush();
+        this.entityManager.clear();
+    }
+
+    private void initRoeByPermission() {
+        Optional<Permission> fp1 = this.permissionRepository.findPermissionByTitle("READ_USER");
+        Optional<Permission> fp2 = this.permissionRepository.findPermissionByTitle("WRITE_USER");
+
+        if(fp1.isEmpty() || fp2.isEmpty()) {
+            fail();
+        }
+
+        Permission p1 = fp1.get();
+        Permission p2 = fp2.get();
+
+
+        Role role = new Role();
+        role.setRoleName("MANAGER");
+
+        role.addPermission(p1);
+        role.addPermission(p2);
+
+        p1.addRole(role);
+        p2.addRole(role);
+
+        this.roleRepository.save(role);
+
         this.entityManager.flush();
         this.entityManager.clear();
     }

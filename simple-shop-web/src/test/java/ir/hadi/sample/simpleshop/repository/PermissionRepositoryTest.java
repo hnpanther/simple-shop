@@ -104,7 +104,7 @@ public class PermissionRepositoryTest {
 
     }
 
-    // continue testing equlas had hash
+
     @Test
     public void equlasTest() {
         Permission p1 = new Permission();
