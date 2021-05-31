@@ -47,20 +47,20 @@ public class User {
         inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
-    public void addPermission(Permission permission) {
-        this.permissions.add(permission);
+    public boolean addPermission(Permission permission) {
+        return this.permissions.add(permission);
     }
 
-    public void removePermission(Permission permission) {
-        this.permissions.remove(permission);
+    public boolean removePermission(Permission permission) {
+        return this.permissions.remove(permission);
     }
 
-    public void addRole(Role role) {
-        this.roles.add(role);
+    public boolean addRole(Role role) {
+        return this.roles.add(role);
     }
 
-    public void removeRole(Role role) {
-        this.roles.remove(role);
+    public boolean removeRole(Role role) {
+        return this.roles.remove(role);
     }
 
     @Override

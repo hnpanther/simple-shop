@@ -29,20 +29,20 @@ public class Role {
     @ManyToMany(mappedBy = "roles")
     Set<User> users = new HashSet<>();
 
-    public void addUser(User user) {
-        this.users.add(user);
+    public boolean addUser(User user) {
+        return this.users.add(user);
     }
 
-    public void removeUser(User user) {
-        this.users.remove(user);
+    public boolean removeUser(User user) {
+        return this.users.remove(user);
     }
 
-    public void addPermission(Permission permission) {
-        this.permissions.add(permission);
+    public boolean addPermission(Permission permission) {
+        return this.permissions.add(permission);
     }
 
-    public void removePermission(Permission permission) {
-        this.permissions.remove(permission);
+    public boolean removePermission(Permission permission) {
+        return this.permissions.remove(permission);
     }
 
     @Override

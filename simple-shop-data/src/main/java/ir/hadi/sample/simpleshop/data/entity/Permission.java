@@ -25,20 +25,20 @@ public class Permission {
     @ManyToMany(mappedBy = "permissions", fetch = FetchType.LAZY)
     private Set<Role> roles = new HashSet<>();
 
-    public void addRole(Role role) {
-        this.roles.add(role);
+    public boolean addRole(Role role) {
+        return this.roles.add(role);
     }
 
-    public void removeRole(Role role) {
-        this.roles.add(role);
+    public boolean removeRole(Role role) {
+        return this.roles.add(role);
     }
 
-    public void addUser(User user) {
-        this.users.add(user);
+    public boolean addUser(User user) {
+        return this.users.add(user);
     }
 
-    public void removeUser(User user) {
-        this.users.remove(user);
+    public boolean removeUser(User user) {
+        return this.users.remove(user);
     }
 
     @Override
